@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  base: '/corporate-landing-page-pro/', // <--- هذا هو التعديل الضروري للنشر
+  base: './', // 👈 هذا التغيير البسيط سيحل المشكلة (يجعل المسارات نسبية)
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
