@@ -16,13 +16,17 @@ jobs:
       - run: npm install
       - run: npm run build
       
+      # تشغيل السيرفر في الخلفية وانتظار استجابته
+      - name: Start Preview Server
+        run: |
+          npm run preview -- --port 4173 &
+          npx wait-on http://localhost:4173
+      
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
             http://localhost:4173
-          # هذا السطر هو الحل: تشغيل السيرفر قبل الفحص
-          startServerCommand: npm run preview
           uploadArtifacts: true
           temporaryPublicStorage: true
           budgetPath: ./.github/lighthouse-budget.json
