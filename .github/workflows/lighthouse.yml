@@ -16,7 +16,7 @@ jobs:
       - run: npm install
       - run: npm run build
       
-      # تشغيل السيرفر في الخلفية وانتظار استجابته
+      # تشغيل السيرفر (الجزء الذي نجح سابقاً)
       - name: Start Preview Server
         run: |
           npm run preview -- --port 4173 &
@@ -27,6 +27,15 @@ jobs:
         with:
           urls: |
             http://localhost:4173
-          uploadArtifacts: true
+          uploadArtifacts: false # 🛑 إيقاف الرفع التلقائي المسبب للمشكلة
           temporaryPublicStorage: true
           budgetPath: ./.github/lighthouse-budget.json
+          runs: 1
+      
+      # ✅ استخدام الأداة الرسمية لرفع النتائج
+      - name: Upload Lighthouse Results
+        uses: actions/upload-artifact@v3
+        if: always() # تنفيذ الرفع حتى لو فشل اختبار الأداء
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
