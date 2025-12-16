@@ -21,7 +21,8 @@ jobs:
         with:
           urls: |
             http://localhost:4173
+          # هذا السطر هو الحل: تشغيل السيرفر قبل الفحص
+          startServerCommand: npm run preview
           uploadArtifacts: true
           temporaryPublicStorage: true
-          # Enforce strict budget from requirements
           budgetPath: ./.github/lighthouse-budget.json
