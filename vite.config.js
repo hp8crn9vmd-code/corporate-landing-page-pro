@@ -1,0 +1,42 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  plugins: [
+    react(),
+    ViteImageOptimizer({
+      /* options left default as per spec requirement for auto-compression */
+    }),
+  ],
+  build: {
+    target: 'esnext',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Security: Prevent console leaks in prod
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor libs to improve caching
+          vendor: ['react', 'react-dom', 'framer-motion'],
+          // Isolate heavy psychology engine
+          psychology: ['webgazer'],
+        },
+      },
+    },
+  },
+});

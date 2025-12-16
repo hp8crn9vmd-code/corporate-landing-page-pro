@@ -1,0 +1,27 @@
+name: Performance Guardrails
+
+on: [push, pull_request]
+
+jobs:
+  lighthouse-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - run: npm install
+      - run: npm run build
+      
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:4173
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          # Enforce strict budget from requirements
+          budgetPath: ./.github/lighthouse-budget.json

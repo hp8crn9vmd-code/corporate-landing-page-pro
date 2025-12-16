@@ -1,0 +1,45 @@
+/* المصدر: 4.2 Feature: Neo-Brutalism Design System */
+:root {
+  /* Core Palette */
+  --neo-bg: #FFFDF8; /* Parchment White */
+  --neo-text: #212121; /* Off-Black for less eye strain */
+  
+  /* Aggressive Red */
+  --neo-primary: #FF6B6B;
+  
+  /* Retro Teal */
+  --neo-secondary: #4ECDC4;
+  
+  /* Warning Yellow */
+  --neo-accent: #FFE66D;
+  
+  /* Structural Tokens */
+  --neo-border: 3px solid var(--neo-text);
+  --neo-shadow-depth: 5px;
+  --neo-shadow-color: var(--neo-text);
+  --neo-radius: 0px; /* Strict rectangular brutalism */
+  
+  /* Animation */
+  --neo-transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Utility Class for Neo Card Base */
+.neo-card {
+  background-color: var(--neo-bg);
+  border: var(--neo-border);
+  box-shadow: var(--neo-shadow-depth) var(--neo-shadow-depth) 0px 0px var(--neo-shadow-color);
+  transition: var(--neo-transition);
+  position: relative;
+}
+
+/* Hover State: "Pop" Effect */
+.neo-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--neo-shadow-depth) + 2px) calc(var(--neo-shadow-depth) + 2px) 0px 0px var(--neo-shadow-color);
+}
+
+/* Active State: "Depressed" Effect */
+.neo-card:active {
+  transform: translate(var(--neo-shadow-depth), var(--neo-shadow-depth));
+  box-shadow: 0px 0px 0px 0px var(--neo-shadow-color);
+}
