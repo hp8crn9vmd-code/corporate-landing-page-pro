@@ -7,32 +7,35 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// تأكد من أن هذا الاسم يطابق اسم المستودع في GitHub حرفياً
+const repoName = 'corporate-landing-page-pro';
+
 export default defineConfig({
-  base: './', // 👈 هذا التغيير البسيط سيحل المشكلة (يجعل المسارات نسبية)
+  // استخدام اسم المستودع كمسار أساسي (الأكثر ضماناً لـ GitHub Pages)
+  base: `/${repoName}/`,
+  
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
+  
   plugins: [
     react(),
     ViteImageOptimizer({}),
   ],
+  
   build: {
     target: 'esnext',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    outDir: 'dist',
+    // نعود للضغط الافتراضي (esbuild) لأنه أسرع وأقل مشاكل من terser
+    minify: true, 
     rollupOptions: {
+      // نلغي التقسيم اليدوي المعقد ونترك Vite يتصرف
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'framer-motion'],
-          psychology: ['webgazer'],
-        },
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
   },
