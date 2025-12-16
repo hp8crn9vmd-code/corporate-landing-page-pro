@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
+  base: '/corporate-landing-page-pro/', // <--- هذا هو التعديل الضروري للنشر
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -15,25 +16,21 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    ViteImageOptimizer({
-      /* options left default as per spec requirement for auto-compression */
-    }),
+    ViteImageOptimizer({}),
   ],
   build: {
     target: 'esnext',
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true, // Security: Prevent console leaks in prod
+        drop_console: true,
         drop_debugger: true,
       },
     },
     rollupOptions: {
       output: {
         manualChunks: {
-          // Split vendor libs to improve caching
           vendor: ['react', 'react-dom', 'framer-motion'],
-          // Isolate heavy psychology engine
           psychology: ['webgazer'],
         },
       },
